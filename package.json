@@ -1,0 +1,18 @@
+{
+  "name": "videotube",
+  "version": "1.0.0",
+  "description": "A bcakend with chai for videoTube",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "express",
+    "node",
+    "mongodb",
+    "chai"
+  ],
+  "author": "Devendra",
+  "license": "ISC"
+}
