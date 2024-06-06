@@ -13,7 +13,19 @@ dotenv.config({
 //m-1
 import connectDB from "./db/index.js";
 
-connectDB();
+connectDB()
+.then(()=>{
+  app.on("ERROR", (error)=>{
+    console.log("ERROR: ", error);
+    throw error;
+  })
+  app.listen(process.env.PORT || 8000, ()=> {
+    console.log(`server is running at port : ${process.env.PORT}`);
+  })
+})
+.catch((err) => {
+  console.log("MongoDB connection failed !!!", err);
+});
 
 
 
