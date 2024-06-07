@@ -2,7 +2,6 @@
 //OR
 import dotenv from 'dotenv';
 
-
 //dotenv is use to As early possible in your application, import and configure dotenv.
 
 dotenv.config({
@@ -12,20 +11,20 @@ dotenv.config({
 //There two to connect backend with MongoDB
 //m-1
 import connectDB from "./db/index.js";
-
+import {app} from './app.js'
 connectDB()
-.then(()=>{
-  app.on("ERROR", (error)=>{
-    console.log("ERROR: ", error);
-    throw error;
+  .then(()=>{
+    app.on("ERROR", (error)=>{
+      console.log("ERROR: ", error);
+      throw error;
+    })
+    app.listen(process.env.PORT || 8000, ()=> {
+      console.log(`server is running at port : ${process.env.PORT}`);
+    })
   })
-  app.listen(process.env.PORT || 8000, ()=> {
-    console.log(`server is running at port : ${process.env.PORT}`);
-  })
-})
-.catch((err) => {
-  console.log("MongoDB connection failed !!!", err);
-});
+  .catch((err) => {
+    console.log("MongoDB connection failed !!!", err);
+  });
 
 
 

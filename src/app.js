@@ -17,4 +17,15 @@ app.use(express.static("public")); // store general things(photo , video) in pub
 
 app.use(cookieParser()); // give a cookie to user Browser
 
+//routes import
+import userRouter from './routes/user.routes.js'
+
+
+
+
+//routes declaration
+app.use("/api/v1/users", userRouter)
+
+
+
 export { app }
