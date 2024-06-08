@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 //dotenv is use to As early possible in your application, import and configure dotenv.
 
 dotenv.config({
-  path: './env'
+  path: './.env'
 });
 
 //There two to connect backend with MongoDB

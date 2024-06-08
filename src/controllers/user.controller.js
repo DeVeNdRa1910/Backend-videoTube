@@ -1,9 +1,9 @@
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { ApiError } from '../utils/ApiError.js';
 import { User } from '../models/user.model.js';
-import uploadOnCloudinary from '../utils/cloudinary.js';
-
+import { uploadOnCloudinary } from '../utils/cloudinary.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
+
 //User is created by mongoose with the help of User we can connect with DB
 
 /* 
@@ -21,7 +21,7 @@ step-9 return response
 const registerUser = asyncHandler(async (req, res) => {
 
   const {username, fullname, email, password } = req.body;
-  console.log(username, fullname);
+  // console.log(username, fullname);
 
 
   //apply validation and check input field are shouldn't empty
@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 
   //check if user already exist by: username or email
-  const existedUSer = User.findOne({
+  const existedUSer = await User.findOne({
     $or: [{ username },{ email }]
   })
   if(existedUSer){
@@ -48,21 +48,35 @@ const registerUser = asyncHandler(async (req, res) => {
 
   //check for images and check for avatar
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  const coverImageLocalPath = req.files?.coverImage[0]?.path;
-  console.log(req.files); // for learn
+  //const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  console.log("req.files ->",req.files); // for learn
+
+/*   let avatarLocalPath;
+  if(req.files && Array.isArray(req.files.avatar) && req.files.avatar.length > 0 ){
+    avatarLocalPath = req.files.avatar[0].path;
+  } */
+
+  let coverImageLocalPath ;
+  if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0 ){
+    coverImageLocalPath = req.files.coverImage[0].path;
+  }
 
   if(!avatarLocalPath){
-    throw new ApiError(400 , "Avatar files is required");
+    throw new ApiError(400 , "Local Path of Avatar files is required");
   }
 
 
   // upload them on cloudinary, avatar
+  console.log('Avatar local path:', avatarLocalPath);
+  console.log('Cover Image local path:', coverImageLocalPath);
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+  console.log('Avatar uploaded:', avatar);
+  console.log('coverImage uploaded:', coverImage);
 
   // check avatar is upload on cloudinary or not
   if(!avatar){
-    throw new ApiError(400, "Avatar file is required");
+    throw new ApiError(400, "Avatar file is required ; ");
   }
 
 
